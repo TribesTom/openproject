@@ -41,6 +41,14 @@ GIT
       sprockets-rails (~> 2.0.0.backport1)
 
 GIT
+  remote: https://github.com/opf/openproject-documents.git
+  revision: 017d72483748b503f9c95ead10fbda0d65ab2d8c
+  branch: dev
+  specs:
+    openproject-documents (4.3.0)
+      rails (~> 3.2.9)
+
+GIT
   remote: https://github.com/opf/openproject-translations.git
   revision: 5426a677ccb6c28f348b71facfb5f9a06e74b864
   branch: release/4.2
@@ -540,6 +548,7 @@ DEPENDENCIES
   object-daddy (~> 1.1.0)
   oj (~> 2.11.4)
   omniauth
+  openproject-documents!
   openproject-translations!
   pg (~> 0.17.1)
   prototype-rails

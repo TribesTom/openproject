@@ -153,6 +153,7 @@
 <i class="icon-page-atom"></i>
 <i class="icon-page-csv"></i>
 <i class="icon-page-pdf"></i>
+<i class="icon-page-pdf-issep"></i>
 <i class="icon-page-pdf-descr"></i>
 <i class="icon-page-xls"></i>
 <i class="icon-page-xls-descr"></i>
