@@ -51,7 +51,8 @@ module WorkPackage::PdfExporter
     title = "#{project} - #{title}" if project
     pdf.SetTitle(title)
     pdf.alias_nb_pages
-    pdf.footer_date = format_date(Date.today)
+    pdf.footer_date = format_date(Date.today) + ", Priorité : Permanent, 1-5 = Urgent - Long Terme "
+#    pdf.SetFooter("0 = Permanent, 1-5 : Urgent - Long Terme ")
     pdf.SetAutoPageBreak(false)
     pdf.AddPage('L')
 
@@ -70,14 +71,25 @@ module WorkPackage::PdfExporter
  #     col_width = query.columns.map do |c|
  #       (c.name == :subject || (c.is_a?(QueryCustomFieldColumn) && ['string', 'text'].include?(c.custom_field.field_format))) ? 4.0 : 1.0
  #     end
- #     ratio = table_width / col_width.reduce(:+)
- #     col_width = col_width.map { |w| w * ratio }
+      ratio = 100 * table_width / col_width.reduce(:+)
+      if ratio > 100
+	col_width = col_width.map { |w| (w * ratio) / 100 }
+      else
+	ratio = 100
+	end
     end
 
     # title
     pdf.SetFontStyle('B', 11)
     pdf.RDMCell(190, 10, title)
     pdf.Ln
+    # info
+
+   # pdf.SetFontStyle('B', 11)
+   # pdf.RDMCell(190, 10, "ratio : " + ratio.to_s + " table width : " + table_width.to_s + " reduce : " + col_width.reduce(:+).to_s)
+   # pdf.Ln
+    
+
 
     # headers
     pdf.SetFontStyle('B', 8)
@@ -94,7 +106,7 @@ module WorkPackage::PdfExporter
     work_packages.each do |work_package|
       if query.grouped? && (group = query.group_by_column.value(work_package)) != previous_group
         pdf.SetFontStyle('B', 9)
-        pdf.RDMCell(277, row_height,
+        pdf.RDMCell(col_width.reduce(:+), row_height,
                     (group.blank? ? 'None' : group.to_s) + " (#{results.work_package_count_for(group)})",
                     1, 1, 'L')
         pdf.SetFontStyle('', 8)
@@ -140,7 +152,10 @@ module WorkPackage::PdfExporter
         base_x = pdf.GetX
         base_y = pdf.GetY
       end
-
+      	
+      # Color
+      coloration= WhichColor(work_package.priority.to_s)
+      pdf.SetFillColor(coloration[0],coloration[1],coloration[2])
       # write the cells on page
       pdf_write_cells(pdf, col_values, col_width, row_height)
       pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, col_width)
@@ -167,7 +182,7 @@ def WhichWidthColumn(query)
 		"priority" => 15,
 		"responsible" => 25,
 		"done_ratio" => 10,
-		"due_date" => 23,
+		"due_date" => 25,
 		"cf_9" => 30,
 		"cf_10" => 20,
 		"status" => 15,
@@ -181,5 +196,19 @@ def WhichWidthColumn(query)
       col[i]=width[column.name.to_s]
     end	
     col		
+  end
+
+def WhichColor(prior)
+
+	availableColor = {
+		"0" => [255,51,51],
+		"1" => [255,153,51],
+		"2" => [255,255,51],
+		"3" => [153,255,51],
+		"4" => [51,255,51],
+		"5" => [51,255,153]
+		}
+	availableColor.default = [255,255,255]
+	availableColor[prior]
   end
 end
