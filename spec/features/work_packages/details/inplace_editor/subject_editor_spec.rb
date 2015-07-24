@@ -1,7 +1,8 @@
 require 'spec_helper'
 require 'features/work_packages/details/inplace_editor/shared_examples'
-require 'features/work_packages/details/inplace_editor/shared_contexts'
+require 'features/work_packages/shared_contexts'
 require 'features/work_packages/details/inplace_editor/work_package_field'
+require 'features/work_packages/work_packages_page'
 
 describe 'subject inplace editor', js: true do
   include_context 'maximized window'
@@ -11,16 +12,20 @@ describe 'subject inplace editor', js: true do
   let(:property_title) { 'Subject' }
   let!(:work_package) { FactoryGirl.create :work_package, project: project }
   let(:user) { FactoryGirl.create :admin }
+  let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:field) { WorkPackageField.new page, property_name }
 
   before do
     allow(User).to receive(:current).and_return(user)
-    visit project_work_packages_path(project)
+
+    work_packages_page.visit_index
 
     ensure_wp_table_loaded
 
     row = page.find("#work-package-#{work_package.id}")
     row.double_click
+
+    ng_wait
   end
 
   context 'in read state' do
