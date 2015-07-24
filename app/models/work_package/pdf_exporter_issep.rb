@@ -51,7 +51,7 @@ module WorkPackage::PdfExporter
     title = "#{project} - #{title}" if project
     pdf.SetTitle(title)
     pdf.alias_nb_pages
-    pdf.footer_date = format_date(Date.today) + ", Priorité : Permanent, 1-5 = Urgent - Long Terme "
+    pdf.footer_date = format_date(Date.today) + ", Priorité : 0 = Permanent, 1 à 5 = Urgent à Long Terme "
 #    pdf.SetFooter("0 = Permanent, 1-5 : Urgent - Long Terme ")
     pdf.SetAutoPageBreak(false)
     pdf.AddPage('L')
