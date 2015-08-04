@@ -51,7 +51,7 @@ module WorkPackage::PdfExporter
     title = "#{project} - #{title}" if project
     pdf.SetTitle(title)
     pdf.alias_nb_pages
-    pdf.footer_date = format_date(Date.today) + ", Priorité : 0 = Permanent, 1 à 5 = Urgent à Long Terme "
+    pdf.footer_date = format_date(Date.today)
 #    pdf.SetFooter("0 = Permanent, 1-5 : Urgent - Long Terme ")
     pdf.SetAutoPageBreak(false)
     pdf.AddPage('L')
@@ -154,7 +154,7 @@ module WorkPackage::PdfExporter
       end
       	
       # Color
-      coloration= WhichColor(work_package.priority.to_s)
+      coloration= WhichColor(work_package.status.to_s)
       pdf.SetFillColor(coloration[0],coloration[1],coloration[2])
       pdf.Rect(base_x, base_y,col_width.reduce(:+), max_height , 'F')
       # write the cells on page
@@ -177,19 +177,21 @@ def WhichWidthColumn(query)
   
   # project,priority,subject,responsible,due_date,done_ratio,cf_9,cf_10,status,Description
 	width = Hash[
-		"object" => 90,
-		"subject" => 70,
-		"start_date" => 50,
+		"object" => 60,
+		"subject" => 60,
 		"priority" => 15,
 		"responsible" => 25,
 		"done_ratio" => 10,
 		"due_date" => 25,
-		"cf_9" => 30,
+		"cf_9" => 20,
 		"cf_10" => 20,
 		"status" => 15,
 		"Description" => 70,
 		"id" => 10,
-		"project" => 20
+		"project" => 20,
+		"start_date" =>22,
+		"cf_13" => 17,
+		"cf_14" => 10
 		]
 	width.default = 40
       col = Array.new
@@ -199,17 +201,14 @@ def WhichWidthColumn(query)
     col		
   end
 
-def WhichColor(prior)
+def WhichColor(status)
 
 	availableColor = {
-		"0" => [255,51,51],
-		"1" => [255,153,51],
-		"2" => [255,255,51],
-		"3" => [153,255,51],
-		"4" => [51,255,51],
-		"5" => [51,255,153]
+		"non programmé" => [255,51,51],
+		"programmé" => [255,153,51],
+		"terminé" => [153,255,51]
 		}
 	availableColor.default = [255,255,255]
-	availableColor[prior]
+	availableColor[status]
   end
 end
