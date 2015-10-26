@@ -154,9 +154,9 @@ module WorkPackage::PdfExporter
       end
       	
       # Color
-      coloration= WhichColor(work_package.status.to_s)
-      pdf.SetFillColor(coloration[0],coloration[1],coloration[2])
-      pdf.Rect(base_x, base_y,col_width.reduce(:+), max_height , 'F')
+      #coloration= WhichColor(work_package.status.to_s)
+      #pdf.SetFillColor(coloration[0],coloration[1],coloration[2])
+      #pdf.Rect(base_x, base_y,col_width.reduce(:+), max_height , 'F')
       # write the cells on page
       pdf_write_cells(pdf, col_values, col_width, row_height)
       pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, col_width)
