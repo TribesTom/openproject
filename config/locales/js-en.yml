@@ -108,6 +108,7 @@ en:
     label_format_atom: "Atom"
     label_format_csv: "CSV"
     label_format_pdf: "PDF"
+    label_format_pdf_issep: "PDF-ISSEP"
     label_format_pdf_with_descriptions: "PDF with descriptions"
     label_greater_or_equal: ">="
     label_group_by: "Group by"

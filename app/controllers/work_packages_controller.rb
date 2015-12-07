@@ -113,7 +113,21 @@ class WorkPackagesController < ApplicationController
                   type: 'application/pdf',
                   filename: 'export.pdf')
       end
+<<<<<<< HEAD
 
+=======
+      format.issep do
+        serialized_work_packages = WorkPackage::Exporter.pdfISSEP(@work_packages,
+                                                             @project,
+                                                             @query,
+                                                             @results,
+                                                             show_descriptions: params[:show_descriptions])
+
+        send_data(serialized_work_packages,
+                  type: 'application/pdf',
+                  filename: 'export.pdf')
+      end
+>>>>>>> 03459ea6c18f870588bf577875c041c0eeae6201
       format.atom do
         render_feed(@work_packages,
                     title: "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")

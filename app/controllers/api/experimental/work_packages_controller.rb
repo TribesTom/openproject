@@ -166,7 +166,8 @@ module Api
         export_formats = [{ identifier: 'atom', format: 'atom', label_locale: 'label_format_atom' },
                           { identifier: 'pdf',  format: 'pdf', label_locale: 'label_format_pdf' },
                           { identifier: 'pdf-descr',  format: 'pdf', label_locale: 'label_format_pdf_with_descriptions', flags: ['show_descriptions'] },
-                          { identifier: 'csv', format: 'csv', label_locale: 'label_format_csv' }]
+                          { identifier: 'csv', format: 'csv', label_locale: 'label_format_csv' },
+			  { identifier: 'pdf',  format: 'issep', label_locale: 'label_format_pdf_issep' }]
         # TODO: This does not belong here and should be replaced by a hook that
         #       aggregates possible formats from the plug-ins.
         if Redmine::Plugin.all.sort.map(&:id).include?(:openproject_xls_export)
