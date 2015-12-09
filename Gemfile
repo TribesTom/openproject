@@ -41,7 +41,7 @@ gem 'globalize', '~> 5.0.1'
 gem 'omniauth'
 gem 'request_store', '~> 1.1.0'
 gem 'gravatar_image_tag', '~> 1.2.0'
-
+gem 'net-ssh'
 gem 'warden', '~> 1.2'
 gem 'warden-basic_auth', '~> 0.2.1'
 
