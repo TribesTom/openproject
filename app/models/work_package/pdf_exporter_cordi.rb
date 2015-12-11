@@ -65,7 +65,7 @@ module WorkPackage::PdfExporter
 
     # column widths
     table_width = page_width - right_margin - 10  # fixed left margin
-    col_width = [60,40,30,107,40]
+    col_width = [55,35,25,92,35,20,15]
 #    unless query.columns.empty?
 #		col_width = WhichWidthColumnCordi(query)
  #     col_width = query.columns.map do |c|
@@ -97,9 +97,11 @@ module WorkPackage::PdfExporter
     #query.columns.each_with_index do |column, i|
     pdf.RDMCell(col_width[0], row_height, "Décision",1, 0, 'L', 1)
     pdf.RDMCell(col_width[1], row_height, "Responsable Décision",1, 0, 'L', 1)
-    pdf.RDMCell(col_width[2], row_height, "Date d\'applisaction", 1, 0, 'L', 1)
+    pdf.RDMCell(col_width[2], row_height, "Application le", 1, 0, 'L', 1)
     pdf.RDMCell(col_width[3], row_height, "Tache", 1, 0, 'L', 1)
     pdf.RDMCell(col_width[4], row_height, "Responsable Tache", 1, 0, 'L', 1)
+    pdf.RDMCell(col_width[5], row_height, "Echéance", 1, 0, 'L', 1)
+    pdf.RDMCell(col_width[6], row_height, "Priorité", 1, 0, 'L', 1)
     #end
     pdf.Ln
 
@@ -113,12 +115,12 @@ module WorkPackage::PdfExporter
       # fetch row value for décision
 	cv = work_package.custom_values.detect { |v| v.custom_field_id == 16 }
 
-      	col_values = [work_package.send("subject").to_s,work_package.send("responsible").to_s,show_value(cv),"",""]
+      	col_values = [work_package.send("subject").to_s,work_package.send("responsible").to_s,show_value(cv)]
 
       	Render(pdf,col_values,col_width,row_height,page_height,bottom_margin)
       	work_packages.each do |child_package|
       	  if child_package.parent_id == work_package.id 
-	    col_values = ["","","",child_package.send("subject").to_s,child_package.send("responsible").to_s]
+	    col_values = ["","","",child_package.send("subject").to_s,child_package.send("responsible").to_s,child_package.send("due_date").to_s,child_package.send("priority").to_s]
 	    Render(pdf,col_values,col_width,row_height,page_height,bottom_margin)
           end
         end
