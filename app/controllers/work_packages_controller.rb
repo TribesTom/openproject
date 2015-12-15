@@ -122,7 +122,7 @@ class WorkPackagesController < ApplicationController
 
         send_data(serialized_work_packages,
                   type: 'application/pdf',
-                  filename: 'export.pdf')
+                  filename: 'securite.pdf')
       end
       format.cordi do
         serialized_work_packages = WorkPackage::Exporter.pdfCORDI(@work_packages,
@@ -133,7 +133,7 @@ class WorkPackagesController < ApplicationController
 
         send_data(serialized_work_packages,
                   type: 'application/pdf',
-                  filename: 'export.pdf')
+                  filename: 'decision.pdf')
       end
 
       format.atom do

@@ -110,6 +110,17 @@ module WorkPackage::PdfExporter
     pdf.SetFillColor(255, 255, 255)
     previous_group = false
     work_packages.each do |work_package|
+      if query.grouped? && (group = query.group_by_column.value(work_package)) != previous_group
+        pdf.SetFontStyle('B', 9)
+        pdf.RDMCell(277, row_height,
+                    (group.blank? ? 'None' : group.to_s) + " (#{results.work_package_count_for(group)})",
+                    1, 1, 'L')
+        pdf.SetFontStyle('', 8)
+        previous_group = group
+      end
+
+
+
       if work_package.type_id == 8
 	
       # fetch row value for décision
