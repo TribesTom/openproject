@@ -33,15 +33,8 @@ module Pages
     attr_reader :project
 
     def initialize(work_package, project = nil)
-      @work_package = work_package
+      super work_package
       @project = project
-    end
-
-    def visit_copy!
-      page = SplitWorkPackageCreate.new(project || work_package.project, work_package)
-      page.visit!
-
-      page
     end
 
     private
@@ -50,7 +43,7 @@ module Pages
       find('.work-packages--details')
     end
 
-    def path(tab='overview')
+    def path(tab = 'overview')
       state = "#{work_package.id}/#{tab}"
 
       if project
@@ -58,6 +51,11 @@ module Pages
       else
         details_work_packages_path(state)
       end
+    end
+
+    def create_page(args)
+      args.merge!(project: project || work_package.project)
+      SplitWorkPackageCreate.new(args)
     end
   end
 end
