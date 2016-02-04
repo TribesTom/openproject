@@ -126,12 +126,12 @@ module WorkPackage::PdfExporter
       # fetch row value for décision
 	cv = work_package.custom_values.detect { |v| v.custom_field_id == 16 }
 
-      	col_values = [work_package.send("subject").to_s,work_package.send("responsible").to_s,show_value(cv)]
+      	col_values = [work_package.send("subject").to_s,work_package.send("responsible").to_s,show_value(cv),"","","",""]
 
       	Render(pdf,col_values,col_width,row_height,page_height,bottom_margin)
       	work_packages.each do |child_package|
       	  if child_package.parent_id == work_package.id 
-	    col_values = ["","","",child_package.send("subject").to_s,child_package.send("responsible").to_s,child_package.send("due_date").to_s,child_package.send("priority").to_s]
+	    col_values = ["","","",child_package.send("subject").to_s,child_package.send("responsible").to_s,format_date(child_package.send("due_date")).to_s,child_package.send("priority").to_s]
 	    Render(pdf,col_values,col_width,row_height,page_height,bottom_margin)
           end
         end
